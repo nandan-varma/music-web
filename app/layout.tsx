@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import { Toaster } from '@/components/ui/toaster'
+import { CommandBar } from '@/components/command'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,7 +18,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <div className="">
+          <div className="border-t">
+            <div className="bg-background">
+              <CommandBar />
+              <p className='md:hidden text-center text-4xl font-extrabold'>Please use Desktop for better experience</p>
+              {children}
+            </div>
+          </div>
+        </div>
+        <Toaster />
+      </body>
     </html>
   )
 }
