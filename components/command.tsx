@@ -25,9 +25,11 @@ import {
 import { useRouter } from "next/navigation"
 
 const commands: { title: string, key: string, href: string, icon: any }[] = [
-  { title: 'Browse', key: 'f', href: '/browse' , icon : <Search className="mr-2 h-4 w-4" /> },
-  { title: 'Library', key: 'l', href: '/library' , icon : <Menu className="mr-2 h-4 w-4" /> }
-  // so on 
+  { title: 'Home', key: 'h', href: '/', icon: <Smile className="mr-2 h-4 w-4" /> },
+  { title: 'Browse', key: 'f', href: '/browse', icon: <Search className="mr-2 h-4 w-4" /> },
+  // { title: 'Library', key: 'l', href: '/library', icon: <Menu className="mr-2 h-4 w-4" /> },
+  // { title: 'Profile', key: 'p', href: '/profile', icon: <User className="mr-2 h-4 w-4" /> },
+  // { title: 'Settings', key: 's', href: '/settings', icon: <Settings className="mr-2 h-4 w-4" /> }
 ]
 
 export function CommandBar() {
@@ -45,6 +47,7 @@ export function CommandBar() {
         e.preventDefault();
         const matchingCommand = commands.find((command) => command.key.toLowerCase() === e.key.toLowerCase());
         if (matchingCommand) {
+          setOpen(false);
           router.push(matchingCommand.href);
         }
       }
@@ -56,40 +59,43 @@ export function CommandBar() {
 
   return (
     <>
-      <p className="text-sm text-muted-foreground">
-        Press{" "}
-        <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-          <span className="text-xs">⌘</span>K
-        </kbd>
-      </p>
       <CommandDialog open={open} onOpenChange={setOpen}>
         <CommandInput onValueChange={(s) => { SetSearchTerm(s) }} placeholder="Type a command or search..." />
         <CommandList>
-          <CommandEmpty>
-            <Calendar className="mr-2 h-4 w-4" />
+          <CommandEmpty onSelect={() => {
+            router.push(`browse?q=${searchTerm}`);
+            setOpen(false)
+          }}>
             <span>
               No results found for {searchTerm}
             </span>
+            <br />
+            <span>
+              Try searching for {searchTerm} in music or library
+            </span>
           </CommandEmpty>
           <CommandGroup heading="Settings">
-            <CommandItem>
+            {/* <CommandItem>
               <User className="mr-2 h-4 w-4" />
               <span>Profile</span>
-              <CommandShortcut>⌘P</CommandShortcut>
-            </CommandItem>
+              <CommandShortcut>CTRL/⌘ P</CommandShortcut>
+            </CommandItem> */}
             {commands.map((command) => (
-              <CommandItem key={command.key} onClick={() => router.push(command.href)}>
+              <CommandItem key={command.key}
+                onClick={() => router.push(command.href)}
+                onSelect={() => { router.push(command.href); setOpen(false) }}
+              >
                 {/* You can customize the icon based on the command */}
                 {command.icon}
                 <span>{command.title}</span>
-                <CommandShortcut>{`⌘${command.key.toUpperCase()}`}</CommandShortcut>
+                <CommandShortcut>{`CTRL/⌘ ${command.key.toUpperCase()}`}</CommandShortcut>
               </CommandItem>
             ))}
-            <CommandItem>
+            {/* <CommandItem>
               <Settings className="mr-2 h-4 w-4" />
               <span>Settings</span>
-              <CommandShortcut>⌘S</CommandShortcut>
-            </CommandItem>
+              <CommandShortcut>CTRL/⌘ S</CommandShortcut>
+            </CommandItem> */}
           </CommandGroup>
         </CommandList>
       </CommandDialog>

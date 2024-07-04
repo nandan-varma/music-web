@@ -4,12 +4,13 @@ import './globals.css'
 import { Toaster } from '@/components/ui/toaster'
 import { CommandBar } from '@/components/command'
 import PlayerProvider from '@/components/PlayerProvider'
+import SearchProvider from '@/components/search/SearchProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Music App',
-  description: 'Music Application',
+  description: 'Music Application with super powers',
 }
 
 export default function RootLayout({
@@ -20,16 +21,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="">
-          <div className="border-t">
-            <div className="bg-background">
-              <CommandBar />
-              <PlayerProvider>
-              {children}
-              </PlayerProvider>
-            </div>
-          </div>
-        </div>
+        <CommandBar />
+        <PlayerProvider>
+          <SearchProvider>
+            {children}
+          </SearchProvider>
+        </PlayerProvider>
         <Toaster />
       </body>
     </html>

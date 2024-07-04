@@ -1,88 +1,52 @@
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
-import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
-} from "@/components/ui/carousel"
+import { SongsResult } from "@/lib/search";
 import { Button } from "../ui/button";
-import { Songs, SongsResult } from "@/lib/search";
-import Image from "next/image";
 
-type SongItemProps = {
-    song: SongsResult
-};
-
-type SongListProps = {
-    songs: Songs
+type SongProps = {
+    Song: SongsResult;
 }
 
-export function SongItem({ song }: SongItemProps) {
+export function Song({ Song }: SongProps) {
     return (
-        <>
-            <Card className="h-96 w-60 ">
-                <CardHeader>
-                    <CardTitle>{song.title}</CardTitle>
-                    <CardDescription>{song.primaryArtists}</CardDescription>
-                </CardHeader>
-                <CardContent className=" align-bottom">
-                    <Image className="h-36 w-36" src={song.image[2].link} alt={song.title} height={'500'} width={'500'}></Image></CardContent>
-                <CardFooter>
-                    <Button>Play</Button>
-                </CardFooter>
-            </Card>
-        </>
+        <div className="bg-muted rounded-lg overflow-hidden group">
+            <div className="relative aspect-square">
+                <img
+                    src={Song.image[2].url}
+                    alt="Album Cover"
+                    width={300}
+                    height={300}
+                    className="w-full h-full object-cover"
+                />
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    className="absolute bottom-2 right-2 bg-background/50 hover:bg-background rounded-full"
+                >
+                    <PlayIcon className="h-5 w-5" />
+                </Button>
+            </div>
+            <div className="p-4">
+                <h3 className="text-base font-semibold line-clamp-1">{Song.title}</h3>
+                <p className="text-sm text-muted-foreground line-clamp-1">{Song.album}</p>
+            </div>
+        </div>
     )
 }
 
-export function SongList({ songs }: SongListProps) {
+export function PlayIcon(props) {
     return (
-        <>
-    <Carousel
-      opts={{
-        align: "start",
-      }}
-      className="w-full max-w-3xl"
-    >
-                <CarouselContent>
-                    {songs.results.map((song,i) =>
-                        <CarouselItem key={i} className="md:basis-1/2 lg:basis-1/3">
-                            <SongItem song={song} />
-                        </CarouselItem>
-                    )}
-                </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
-            </Carousel>
-        </>
-    )
-}
-
-export function SongListLoading() {
-    return (
-        <Carousel
-        opts={{
-          align: "start",
-        }}
-        className="w-full max-w-3xl"
-      >
-                  <CarouselContent>
-                      {Array.from({ length: 5 }).map((k,i) =>
-                          <CarouselItem key={i} className="md:basis-1/2 lg:basis-1/3">
-                              {/* <SongItem song={} /> */}
-                          </CarouselItem>
-                      )}
-                  </CarouselContent>
-                  <CarouselPrevious />
-                  <CarouselNext />
-              </Carousel>
+        <svg
+            {...props}
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        >
+            <polygon points="6 3 20 12 6 21 6 3" />
+        </svg>
     )
 }

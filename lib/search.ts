@@ -1,21 +1,14 @@
-// To parse this data:
-//
-//   import { Convert, SearchResponse } from "./file";
-//
-//   const searchResponse = Convert.toSearchResponse(json);
-
 export interface SearchResponse {
-    status:  string;
-    message: null;
+    success: boolean;
     data:    Data;
 }
 
 export interface Data {
-    topQuery:  Artists;
+    topQuery:  TopQuery;
     songs:     Songs;
     albums:    Albums;
     artists:   Artists;
-    playlists: Artists;
+    playlists: Albums;
 }
 
 export interface Albums {
@@ -31,22 +24,16 @@ export interface AlbumsResult {
     url:         string;
     type:        string;
     description: string;
-    position:    number;
     year:        string;
     songIds:     string;
     language:    string;
 }
 
 export interface Image {
-    quality: Quality;
-    link:    string;
+    quality: "50x50" | "150x150" | "500x500";
+    url:     string;
 }
 
-export enum Quality {
-    The150X150 = "150x150",
-    The500X500 = "500x500",
-    The50X50 = "50x50",
-}
 
 export interface Artists {
     results:  ArtistsResult[];
@@ -57,11 +44,9 @@ export interface ArtistsResult {
     id:          string;
     title:       string;
     image:       Image[];
-    url:         string;
     type:        string;
     description: string;
     position:    number;
-    language?:   string;
 }
 
 export interface Songs {
@@ -77,19 +62,22 @@ export interface SongsResult {
     url:            string;
     type:           string;
     description:    string;
-    position:       number;
     primaryArtists: string;
     singers:        string;
     language:       string;
 }
 
-// Converts JSON strings to/from your types
-export class Convert {
-    public static toSearchResponse(json: string): SearchResponse {
-        return JSON.parse(json);
-    }
+export interface TopQuery {
+    results:  TopQueryResult[];
+    position: number;
+}
 
-    public static searchResponseToJson(value: SearchResponse): string {
-        return JSON.stringify(value);
-    }
+export interface TopQueryResult {
+    id:          string;
+    title:       string;
+    image:       Image[];
+    url:         string;
+    type:        string;
+    language:    string;
+    description: string;
 }
