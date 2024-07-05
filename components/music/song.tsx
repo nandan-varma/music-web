@@ -32,7 +32,7 @@ export function Song({ Song }: SongProps) {
     )
 }
 
-export function PlayIcon(props) {
+export function PlayIcon(props: any) {
     return (
         <svg
             {...props}

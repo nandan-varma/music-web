@@ -1,6 +1,6 @@
 "use client"
 import { useRouter } from "next/navigation";
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { createContext, MutableRefObject, useContext, useEffect, useRef, useState } from "react";
 import { PlayerContext } from "../PlayerProvider";
 import { useDebounce } from 'use-debounce';
 import { Sample, Search } from "@/data/search";
@@ -11,9 +11,9 @@ export const SearchContext = createContext({
     results: Sample().data,
     loading: false,
     error: null,
-    searchRef: null,
-    handleSearch: () => { },
-    handleSelect: () => { },
+    searchRef: null as MutableRefObject<any> | null,
+    handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => { },
+    handleSelect: (song: SongsResult) => { },
 });
 
 type SearchProviderProps = {
@@ -22,10 +22,10 @@ type SearchProviderProps = {
 
 export default function SearchProvider({ children }: SearchProviderProps) {
     const [search, setSearch] = useState('');
-    const [results, setResults] = useState<Data | undefined>(Sample().data);
+    const [results, setResults] = useState<any>(Sample().data);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const searchRef = useRef(null);
+    const [error, setError] = useState<any>(null);
+    const searchRef = useRef<any>(null);
     const [searchDebounce] = useDebounce(search, 500);
     const router = useRouter();
     const { setSong } = useContext(PlayerContext);
@@ -46,7 +46,7 @@ export default function SearchProvider({ children }: SearchProviderProps) {
             searchSongs();
         }
     }, [searchDebounce]);
-    const handleSearch = (e) => {
+    const handleSearch = (e: any) => {
         setSearch(e.target.value);
     };
     const handleSelect = (song: SongsResult) => {

@@ -73,7 +73,7 @@ export default function Browse() {
   )
 }
 
-function ForwardIcon(props) {
+function ForwardIcon(props: any) {
   return (
     <svg
       {...props}
@@ -94,7 +94,7 @@ function ForwardIcon(props) {
 }
 
 
-function PlayIcon(props) {
+function PlayIcon(props: any) {
   return (
     <svg
       {...props}
@@ -114,7 +114,7 @@ function PlayIcon(props) {
 }
 
 
-function RewindIcon(props) {
+function RewindIcon(props: any) {
   return (
     <svg
       {...props}
@@ -135,7 +135,7 @@ function RewindIcon(props) {
 }
 
 
-function SearchIcon(props) {
+function SearchIcon(props: any) {
   return (
     <svg
       {...props}
@@ -156,7 +156,7 @@ function SearchIcon(props) {
 }
 
 
-function Volume2Icon(props) {
+function Volume2Icon(props: any) {
   return (
     <svg
       {...props}
