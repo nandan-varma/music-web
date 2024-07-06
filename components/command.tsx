@@ -5,6 +5,7 @@ import {
   Calculator,
   Calendar,
   CreditCard,
+  LucideIcon,
   Menu,
   Search,
   Settings,
@@ -24,7 +25,7 @@ import {
 } from "@/components/ui/command"
 import { useRouter } from "next/navigation"
 
-const commands: { title: string, key: string, href: string, icon: any }[] = [
+const commands: { title: string, key: string, href: string, icon: React.ReactElement }[] = [
   { title: 'Home', key: 'h', href: '/', icon: <Smile className="mr-2 h-4 w-4" /> },
   { title: 'Browse', key: 'f', href: '/browse', icon: <Search className="mr-2 h-4 w-4" /> },
   // { title: 'Library', key: 'l', href: '/library', icon: <Menu className="mr-2 h-4 w-4" /> },
@@ -63,7 +64,7 @@ export function CommandBar() {
         <CommandInput onValueChange={(s) => { SetSearchTerm(s) }} placeholder="Type a command or search..." />
         <CommandList>
           <CommandEmpty onSelect={() => {
-            router.push(`browse?q=${searchTerm}`);
+            router.push(`/browse?q=${searchTerm}`);
             setOpen(false)
           }}>
             <span>
@@ -82,7 +83,6 @@ export function CommandBar() {
             </CommandItem> */}
             {commands.map((command) => (
               <CommandItem key={command.key}
-                onClick={() => router.push(command.href)}
                 onSelect={() => { router.push(command.href); setOpen(false) }}
               >
                 {/* You can customize the icon based on the command */}

@@ -1,11 +1,38 @@
 import { SearchResponse, Data, Artists } from "@/lib/search";
+import { SongDataResponse } from "@/lib/song";
 
 export async function Search(SearchTerm: string): Promise<SearchResponse | null> {
     if (SearchTerm && SearchTerm.replace(/\s/g, "") != "") {
-        var searchUrl = `https://jiosaavn-api-nandan-varma.vercel.app/search/all?query=${SearchTerm}`;
+        var searchUrl = `https://jiosaavn-api-nandan-varma.vercel.app/api/search?query=${SearchTerm}`;
         let res = await fetch(searchUrl);
         console.log(SearchTerm);
         let response = await res.json() as SearchResponse;
+        return response;
+    }
+    else {
+        return null;
+    }
+}
+
+export async function SearchSongs(SearchTerm: string): Promise<SearchResponse | null> {
+    if (SearchTerm && SearchTerm.replace(/\s/g, "") != "") {
+        var searchUrl = `https://jiosaavn-api-nandan-varma.vercel.app/api/search/songs?query=${SearchTerm}`;
+        let res = await fetch(searchUrl);
+        console.log(SearchTerm);
+        let response = await res.json() as SearchResponse;
+        return response;
+    }
+    else {
+        return null;
+    }
+}
+
+export async function getSongData(songID: string): Promise< SongDataResponse | null> {
+    if (songID) {
+        var searchUrl = `https://jiosaavn-api-nandan-varma.vercel.app/api/songs/${songID}`;
+        let res = await fetch(searchUrl);
+        console.log(songID);
+        let response = await res.json() as SongDataResponse;
         return response;
     }
     else {
